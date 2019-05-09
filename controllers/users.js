@@ -1,4 +1,14 @@
+const JWT = require("jsonwebtoken");
 const User = require("../models/user");
+
+const signToken = user => {
+    return JWT.sign({
+        iss: 'dcdocsapp',
+        sub: user.id, // The id from our mongoose database, to keep this unique...
+        iat: new Date().getTime(), // Date of creation...
+        exp: new Date().setDate(new Date().getDate() + 1) // Current time + 1 day ahead...
+    }, "sd09fjsdf0io");
+};
 
 module.exports = {
     signUp: async (req,res,next) => {
@@ -11,7 +21,9 @@ module.exports = {
 
         const newUser = new User({ email, password });
         await newUser.save();
-        res.json({ user: 'Created '});
+        const token = signToken(newUser);
+
+        res.json({ token });
     
     },
     signIn: async (req,res,next) => {
