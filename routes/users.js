@@ -1,9 +1,12 @@
 const router = require("express").Router();
+const passport = require("passport");
 const { signIn, signUp, secret } = require("../controllers/users");
 const { schemas, validateBody } = require("../helpers/routeHelpers")
 
+require("../passport"); /// Must load passport configuration...
+
 router.post("/signup", validateBody(schemas.authSchema), signUp);
 router.post("/signin", signIn);
-router.get("/secret", secret);
+router.get("/secret", passport.authenticate('jwt', { session: false }), secret);
 
 module.exports = router;
