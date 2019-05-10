@@ -30,16 +30,22 @@ passport.use(
     new LocalStrategy({
         usernameField: 'email', // This defaults to username otherwise, we need to manually set it.
     }, async (email, password, done) => {
+        try {
+            const user = await User.findOne({ email });
+            if(!user){
+                return done(null, false);
+            }
+            const isMatch = await user.isValidPassword(password); // We created this method in our user schema...
+            
+            if(!isMatch){
+                console.log("No match!")
+                return done(null, false);
+            }
+            console.log("Match!")
+            done(null, user); // Pass the user back.
 
-        const user = await User.findOne({ email });
-        // If user doesn't exist, handle this...
-        if(!user){
-            return done(null, false);
+        } catch(err) {
+            done(err, false);
         }
-        // Then check that the password is correct...
-
-        // If not, handle that...
-
-        // Return the user...
     })
-)
+);

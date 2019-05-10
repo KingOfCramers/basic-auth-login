@@ -26,9 +26,8 @@ module.exports = {
         res.json({ token });
     
     },
-    signIn: async (req,res,next) => {
-        // Generate token...
-        console.log('UsersController.signIn() called!')
+    signIn:  (req,res,next) => {
+
     },
     secret: async (req,res,next) => {
         res.send("YOU MADE IT!")

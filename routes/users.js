@@ -6,7 +6,7 @@ const { schemas, validateBody } = require("../helpers/routeHelpers")
 require("../passport"); /// Must load passport configuration...
 
 router.post("/signup", validateBody(schemas.authSchema), signUp);
-router.post("/signin", signIn);
+router.post("/signin", validateBody(schemas.authSchema), passport.authenticate("local", { session: false }), signIn);
 router.get("/secret", passport.authenticate('jwt', { session: false }), secret);
 
 module.exports = router;
