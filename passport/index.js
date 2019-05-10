@@ -36,12 +36,10 @@ passport.use(
                 return done(null, false);
             }
             const isMatch = await user.isValidPassword(password); // We created this method in our user schema...
-            
+
             if(!isMatch){
-                console.log("No match!")
                 return done(null, false);
             }
-            console.log("Match!")
             done(null, user); // Pass the user back.
 
         } catch(err) {

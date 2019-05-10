@@ -22,10 +22,9 @@ app.use(bodyParser.json());
 
 
 // Routes
-app.use("/users", userRoutes);
+app.use("/auth", userRoutes);
 
 // Start server
-
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
