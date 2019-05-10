@@ -45,7 +45,7 @@ userSchema.pre("save", async function(next){
         // Generate salt, and hash + salt password. Reassign hashed version before save...
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(this.local.password, salt);
-        this.password = passwordHash;
+        this.local.password = passwordHash;
         next();
     } catch(err){
         next(err);

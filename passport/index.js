@@ -31,7 +31,7 @@ passport.use(
         usernameField: 'email', // This defaults to username otherwise, we need to manually set it.
     }, async (email, password, done) => {
         try {
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ "local.email": email });
             if(!user){
                 return done(null, false);
             }

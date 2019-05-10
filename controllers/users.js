@@ -14,12 +14,18 @@ module.exports = {
     signUp: async (req,res,next) => {
 
         const { email, password } = req.value.body;
-        const foundUser = await User.findOne({ email });
+        const foundUser = await User.findOne({ "local.email": email });
         if(foundUser){ 
             return res.status(403).send({ error: "Email is already in use."}); // Must return to end execution of code!
         }
 
-        const newUser = new User({ email, password });
+        const newUser = new User({ 
+            method: 'local',
+            local: {
+                email,
+                password
+            }
+        });
         await newUser.save();
         const token = signToken(newUser);
 
@@ -30,13 +36,10 @@ module.exports = {
         const token = signToken(req.user);
         res.status(200).json({ token });
     },
-    googleOauth: async (req,res,next) => {
-        const token = signToken(req.user);
-        res.status(200).json({ token });
-    },
     secret: async (req,res,next) => {
-        res.send("YOU MADE IT!")
+        console.log('UsersController.secret() called!')
     },
+
     faraToggle: async (req,res) => {
         try{
             await User.updateOne({ _id: req.params.id }, { fara: req.body.fara });
@@ -66,5 +69,9 @@ module.exports = {
                 message: err.message || "Some error occured while trying to update user data."
             });
         }
+    },
+    googleOauth: async (req,res,next) => {
+        const token = signToken(req.user);
+        res.status(200).json({ token });
     }
 };
