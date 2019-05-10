@@ -1,5 +1,5 @@
 const JWT = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/User");
 
 const signToken = user => {
     return JWT.sign({
@@ -31,7 +31,7 @@ module.exports = {
         console.log('UsersController.signIn() called!')
     },
     secret: async (req,res,next) => {
-        console.log('UsersController.secret() called!')
+        res.send("YOU MADE IT!")
     },
     faraToggle: async (req,res) => {
         try{

@@ -1,24 +1,15 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-let User;
-
-const modelAlreadyDeclared = () => {
-    try {
-      mongoose.model('User')  // it throws an error if the model is still not defined
-      return true
-    } catch (e) {
-      return false
+const userSchema = new Schema({
+    email: {
+        type: String
+    },
+    password: {
+        type: String
     }
-  }
-  
-if(!modelAlreadyDeclared()) {
-    User = mongoose.model("User", {
-        email: {
-            type: String
-        },
-        password: {
-            type: String
-        }
-    });
-};  
+});
+
+const User = mongoose.model('user', userSchema);
+
 module.exports = User;
