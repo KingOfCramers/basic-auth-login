@@ -26,7 +26,11 @@ module.exports = {
         res.json({ token });
     
     },
-    signIn:  (req,res,next) => {
+    signIn: (req,res,next) => {
+        const token = signToken(req.user);
+        res.status(200).json({ token });
+    },
+    googleOauth: async (req,res,next) => {
         const token = signToken(req.user);
         res.status(200).json({ token });
     },

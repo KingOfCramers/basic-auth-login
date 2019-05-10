@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
-const { signIn, signUp, secret } = require("../controllers/users");
+const { signIn, signUp, secret, googleOauth } = require("../controllers/users");
 const { schemas, validateBody } = require("../helpers/routeHelpers")
 
 require("../passport"); /// Must load passport configuration...
@@ -18,7 +18,7 @@ router.post("/signin", inputValidator, passportLocalMiddleware, signIn);
 
 router.get("/secret", passportJWTMiddleWare, secret);
 
-router.post("/google", passportGoogleMiddleware);
+router.post("/google", passportGoogleMiddleware, googleOauth);
 
 
 module.exports = router;
